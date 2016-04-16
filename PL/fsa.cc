@@ -17,11 +17,14 @@ set getCombined(const set original, char input_char, const TableElement* element
 	queue <int> temp_que;
 	set <int> temp_set;
 	int temp_num=0;
+	int i;
 	temp_que = original;
 	if (input_char != '#') {
 		while (!temp_que.empty()) {
 			temp_num = temp_que.pop();
-			if (temp_set.find(temp_num) == temp_set.end()) temp_set.insert(temp_num);
+			for (i = 0; i < num_elements; i++) {
+				if ((elements + i)->state == temp_num && (elements + i)->input_char == input_char) temp_que.push((elements + i)->next_state);
+			}
 		}
 		temp_que = temp_set;
 		temp_set.clear();
@@ -29,8 +32,12 @@ set getCombined(const set original, char input_char, const TableElement* element
 	while (!temp_que.empty()) {
 		temp_num = temp_que.pop();
 		if (temp_set.find(temp_num) != temp_set.end()) continue;
-		for (i = 0; i<)
+		for (i = 0; i < num_elements; i++) {
+			if ((elements + i)->state == temp_num && (elements + i)->input_char == '#') temp_que.push((elements + i)->next_state);
+		}
+		temp_set.insert(temp_num);
 	}
+	return temp_set;
 }
 bool CheckIfNFA(const TableElement* elements, int num_elements) {
   //TODO Implement this function.

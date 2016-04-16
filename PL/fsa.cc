@@ -12,7 +12,7 @@
 const char kEps = '#';
 
 using namespace std;
-set getCombined(const set original, char input_char, const TableElement* elements, int num_elements)
+set<int> getCombined(const set<int> original, char input_char, const TableElement* elements, int num_elements)
 {
 	queue <int> temp_que;
 	set <int> temp_set;

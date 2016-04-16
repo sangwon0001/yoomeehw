@@ -12,7 +12,26 @@
 const char kEps = '#';
 
 using namespace std;
-
+set getCombined(const set original, char input_char, const TableElement* elements, int num_elements)
+{
+	queue <int> temp_que;
+	set <int> temp_set;
+	int temp_num=0;
+	temp_que = original;
+	if (input_char != '#') {
+		while (!temp_que.empty()) {
+			temp_num = temp_que.pop();
+			if (temp_set.find(temp_num) == temp_set.end()) temp_set.insert(temp_num);
+		}
+		temp_que = temp_set;
+		temp_set.clear();
+	}
+	while (!temp_que.empty()) {
+		temp_num = temp_que.pop();
+		if (temp_set.find(temp_num) != temp_set.end()) continue;
+		for (i = 0; i<)
+	}
+}
 bool CheckIfNFA(const TableElement* elements, int num_elements) {
   //TODO Implement this function.
 	//(1)state 갯수 구하고, (2)알파벳 갯수 구하고,-->함수를 만들고 (3)#을 accept하는지 num_elements만큼 돌기(#accept하면 return true)
@@ -97,21 +116,21 @@ struct TableElement2 {
 	set <int> next_state;
 };
 bool BuildNFA(const TableElement* elements, int num_elements,
-              const int* accept_states_array, int num_accept_states,
-              FiniteStateAutomaton* fsa) {
-  // Implement this function.
+	const int* accept_states_array, int num_accept_states,
+	FiniteStateAutomaton* fsa) {
+	// Implement this function.
 
-	//state갯수와 char갯수 구하기
+	  //state갯수와 char갯수 구하기
 	vector <int > state_arr(num_elements);
 	int char_arr[100];
 	int i, j;
-	int state_num = 0, char_num = 0, char_num_include_shop=0;
+	int state_num = 0, char_num = 0, char_num_include_shop = 0;
 	for (i = 0; i <= num_elements; i++) state_arr[i] = 0;
 	for (i = 0; i <= 100; i++) char_arr[i] = 0;
 
 	for (i = 0; i < num_elements; i++) {
-		state_arr[(elements + i)-> state]++;
-		state_arr[(elements + i)-> next_state]++;
+		state_arr[(elements + i)->state]++;
+		state_arr[(elements + i)->next_state]++;
 		if ((elements + i)->input_char == '#') char_arr[0]++;
 		else char_arr[(int)((elements + i)->input_char) - 40]++;
 	}
@@ -133,7 +152,7 @@ bool BuildNFA(const TableElement* elements, int num_elements,
 	queue < set <int> > combined_queue;
 	set < int > temp_set, temp_set2;
 	temp_set2.insert(1);
-	temp_set = getCombined( temp_set2, '#', elements);
+	temp_set = getCombined(temp_set2, '#', elements);
 	combined_queue.push(temp_set);
 
 	vector<TableElement2*>  fsa_element;
@@ -142,12 +161,12 @@ bool BuildNFA(const TableElement* elements, int num_elements,
 		if (isInVec(combined_states, temp_set) == 1/*set이 벡터 안에 있다*/) continue;
 		for (i = 0; i < char_num; i++/*여기서 char_num은 #을 뺀 갯수*/) {
 			temp_set2 = getCombined(temp_set, char_arr[i], elements);
-			Combined_queue.push(temp_set2);
+			combined_queue.push(temp_set2);
 			struct TableElement2 temp_element2;
 			temp_element2.input_char = char_arr[i];
 			temp_element2.state = temp_set;
 			temp_element2.next_state = temp_set2;
-			fsa_element.pushback(temp_element2);
+			fsa_element.push_back(temp_element2);
 		}
 		combined_states.push_back(temp_set);
 	}
@@ -168,12 +187,9 @@ bool BuildNFA(const TableElement* elements, int num_elements,
 				break;
 			}
 		}
-	} 
+	}
 	return BuildDFA(&fsa_element2[0], fsa_element2->size(),
 		&new_accept_array[0], new_accept_array.size());
-
-
-  return false;
 }
 
 // Homework 1.1
@@ -192,7 +208,6 @@ bool BuildFSA(const TableElement* elements, int num_elements,
     return BuildDFA(elements, num_elements, accept_states, num_accepts, fsa);
   }
 }
-
 // Homework 1.3
 bool BuildFSA(const char* regex, FiniteStateAutomaton* fsa) {
   // Implement this function.
